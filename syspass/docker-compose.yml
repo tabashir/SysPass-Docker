@@ -1,0 +1,23 @@
+app:
+  build: .
+  container_name: syspass-app
+  restart: always
+  ports:
+    - "50160:80"
+    - "50163:443"
+  links:
+    - db:db
+  volumes:
+    - /local/docker/volumes/syspass/config:/var/www/html/sysPass/config
+    - /local/docker/volumes/syspass/backup:/var/www/html/sysPass/backup
+ 
+db:
+  container_name: syspass-db
+  restart: always
+  image: mysql/mysql-server:5.5
+  ports:
+    - "50161:3306"
+  environment:
+    - MYSQL_ROOT_PASSWORD=<set_your_preferred_root_password_here>
+  volumes:
+    - /local/docker/volumes/syspass/syspass-db:/var/lib/mysql
